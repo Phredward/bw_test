@@ -1,3 +1,6 @@
+"""Simple bandwidth tester
+(C) Fred Blau 2010
+"""
 import array
 import optparse
 import time
@@ -14,6 +17,7 @@ data16k = data1k*16
 data1M = data1k*1024
 data4M = data1M * 4
 data16M = data1M*16
+
 def print_human(bytes):
     if bytes >= 1099511627776:
         terabytes = bytes / 1099511627776
