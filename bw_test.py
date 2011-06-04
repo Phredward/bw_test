@@ -5,14 +5,18 @@ import array
 import optparse
 import time
 import socket
+try:
+    range=xrange
+except NameError:
+    pass
 
 PORT=12345
 
 #1kdata = 1024 Bytes
-data1k='1234567890'
+data1k='1234567890'.encode('utf8')
 data1k=data1k*10
 data1k=data1k*10
-data1k=data1k+'123456789012345678901234'
+data1k=data1k+'123456789012345678901234'.encode('utf8')
 data16k = data1k*16
 data1M = data1k*1024
 data4M = data1M * 4
@@ -53,31 +57,31 @@ def do_listen(port):
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind(('', port))
     s.listen(1)
-    print 'listening on port', port
+    print('listening on port', port)
     conn, addr = s.accept()
     return (conn,addr)
 
 def do_recv(s, duration=0):
     if duration:
-        s.send(str(duration))
+        s.send(str(duration).encode('utf8'))
     start_time=time.time()
     second_time=start_time
     cur_time = start_time
     count=0
-    d=array.array('c')
-    d.append('0')
-    for i in xrange(16):
+    d=array.array('b')
+    d.append(0)
+    for i in range(16):
         d.extend(d)
-    print len(d)
+    print(len(d))
     while True:
         len_r=s.recv_into(d, 16*1024)
         count += len_r
         cur_time=time.time()
         if cur_time-second_time > 1.0:
-            print 'bw: %s' % print_human(count / (cur_time - second_time))
+            print('bw: %s' % print_human(count / (cur_time - second_time)))
             count=0
             second_time = cur_time
-        if d[len_r-4:len_r].tostring() == 'done':
+        if d[len_r-4:len_r].tostring() == 'done'.encode('utf8'):
             return
 
 def do_send(s, duration=0):
@@ -92,23 +96,23 @@ def do_send(s, duration=0):
         count += count_len
         cur_time = time.time()
         if cur_time - second_time > 1.0:
-            print 'bw: %s' % print_human(count / (cur_time - second_time))
+            print('bw: %s' % print_human(count / (cur_time - second_time)))
             count=0
             second_time = cur_time
-    s.send('done')
+    s.send('done'.encode('utf8'))
 
 
 init_options()
-print 'start'
+print('start')
 if options.connect:
     (s, _) = do_connect(options.connect, options.port)
     do_recv(s, options.time_to_run)
-    print 'and now send'
+    print('and now send')
     do_send(s, options.time_to_run)
 else:
     (s, remote_host) = do_listen(options.port)
-    print 'connection from', remote_host
+    print('connection from', remote_host)
     do_send(s)
     time.sleep(2)
-    print 'and now recv'
+    print('and now recv')
     do_recv(s)
