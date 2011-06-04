@@ -50,6 +50,7 @@ def do_connect(host, port):
 
 def do_listen(port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind(('', port))
     s.listen(1)
     print 'listening on port', port
