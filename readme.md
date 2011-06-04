@@ -8,7 +8,8 @@ connect to the other, even on the same machine (although this really just tests 
 Instructions:
 -------------
 
-```Usage: bw_test.py [options]
+```
+Usage: bw_test.py [options]
 
 Options:
   -h, --help            show this help message and exit
