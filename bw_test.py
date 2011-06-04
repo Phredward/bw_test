@@ -72,7 +72,10 @@ def do_recv(s, duration=0):
     d.append(0)
     for i in range(16):
         d.extend(d)
-    print(len(d))
+    #print(len(d))
+    #instead of printing the length of the receive buffer, there should be
+    #blocksize constants and the send and recieve buffer should be the same
+    #(see hardcoded recv_into below)
     while True:
         len_r=s.recv_into(d, 16*1024)
         count += len_r
