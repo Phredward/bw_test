@@ -57,7 +57,7 @@ def do_listen(port):
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind(('', port))
     s.listen(1)
-    print('listening on port', port)
+    print('listening on port %d' % port)
     conn, addr = s.accept()
     return (conn,addr)
 
@@ -111,7 +111,7 @@ if options.connect:
     do_send(s, options.time_to_run)
 else:
     (s, remote_host) = do_listen(options.port)
-    print('connection from', remote_host)
+    print('connection from %s:%d' % (remote_host[0], remote_host[1]))
     do_send(s)
     time.sleep(2)
     print('and now recv')
