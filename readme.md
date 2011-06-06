@@ -2,8 +2,11 @@ bw_test.py -- A Bandwidth Tester
 ================================
 
 bw_test.py is a simple script that you run to test the bandwidht between two
-endpoints.  This two endpoints can be anywhere where at least one side can
+endpoints.  The two endpoints can be anywhere where at least one side can
 connect to the other, even on the same machine (although this really just tests cpu usage through the loopback interface).
+
+The server will send data as hard as it can, then the client will send data as
+hard as it can.  Bandwidth information is printed every second.
 
 Instructions:
 -------------
